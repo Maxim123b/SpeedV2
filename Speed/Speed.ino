@@ -1,4 +1,3 @@
-
 #define CLK 5
 #define DIO 4
 #include "GyverTM1637.h"
@@ -51,8 +50,18 @@ void setup() {
 
 void loop() {
  butt1.tick();
+ static int a;
   if (IsFirstTouch && butt1.state()) {
-   mySerial.println(Deteckter());
+  // mySerial.println(Deteckter());
+  a = Deteckter();
+  mySerial.print("10:30:20");
+  mySerial.print("|");
+  mySerial.print(a );
+  mySerial.print("|");
+  mySerial.print( Distance());
+  mySerial.print("|");
+  mySerial.println("5234");
+  print(a);
     IsFirstTouch = false;
   }
 
@@ -85,6 +94,5 @@ void print(int print) {
   disp.clear();
   disp.displayInt(print);
 }
-
 
 
