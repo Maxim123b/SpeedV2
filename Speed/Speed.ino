@@ -3,7 +3,7 @@
 #include "GyverTM1637.h"
 GyverTM1637 disp(CLK, DIO);
 #define BTN_PIN 3  
-
+#define TimeForStop 10000
 #include "GyverButton.h"
 GButton butt1(BTN_PIN);
 
@@ -33,6 +33,7 @@ bool wasPresed = false;
 int buf;
 int i;
 int k;
+unsigned long time;
 void setup() {
   pinMode(10, INPUT_PULLUP);
   Serial.begin(9600);
@@ -51,20 +52,33 @@ void setup() {
 void loop() {
  butt1.tick();
  static int a;
+ static uint8_t b;
   if (IsFirstTouch && butt1.state()) {
   // mySerial.println(Deteckter());
   a = Deteckter();
-  mySerial.print("10:30:20");
+  b = Distance();
+  mySerial.print("00:00:00");
   mySerial.print("|");
   mySerial.print(a );
   mySerial.print("|");
-  mySerial.print( Distance());
+  mySerial.print( b);
   mySerial.print("|");
-  mySerial.println("5234");
+  mySerial.println("0");
   print(a);
     IsFirstTouch = false;
   }
-
+   if((millis() - time) >= TimeForStop){
+    time = millis();
+    a =0;
+ mySerial.print("10:30:20");
+  mySerial.print("|");
+  mySerial.print(a);
+  mySerial.print("|");
+  mySerial.print(b);
+  mySerial.print("|");
+  mySerial.println("0");
+  print(a);
+   }
   if (IsFirstTouch == false  && butt1.state()==false) {
      IsFirstTouch = true;
   }
@@ -94,5 +108,3 @@ void print(int print) {
   disp.clear();
   disp.displayInt(print);
 }
-
-
