@@ -36,6 +36,7 @@ int i;
 int k;
 void setup() {
   pinMode(10, INPUT_PULLUP);
+  pinMOde(3, OUTPUT);
   Serial.begin(9600);
   mySerial.begin(9600);
   disp.clear();
@@ -97,6 +98,9 @@ int Deteckter() {
  
    speed = V * 3.6;
   buf = speed;
+  if(buf > 25){
+    tone(3,1000);
+    }
   return speed;
 }
 
